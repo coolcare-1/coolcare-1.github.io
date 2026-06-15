@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COOL CARE OFFICIAL</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --blue-dark:  #0b4f8a;
+    --blue-mid:   #1478c8;
+    --blue-light: #e6f1fb;
+    --blue-text:  #0c447c;
+    --green:      #1d9e75;
+    --green-light:#e1f5ee;
+    --green-text: #085041;
+    --amber:      #ba7517;
+    --amber-light:#faeeda;
+    --amber-text: #633806;
+    --purple:     #7f77dd;
+    --purple-light:#eeedfe;
+    --purple-text: #3c3489;
+    --red:        #e24b4a;
+    --red-light:  #fcebeb;
+    --red-text:   #791f1f;
+    --bg:         #f0f6ff;
+    --surface:    #ffffff;
+    --surface2:   #f7faff;
+    --border:     #dce8f5;
+    --text:       #0f1f35;
+    --text2:      #4a6080;
+    --text3:      #8aa0ba;
+    --radius-sm:  6px;
+    --radius-md:  10px;
+    --radius-lg:  14px;
+    --radius-xl:  20px;
+    --shadow-sm:  0 1px 4px rgba(11,79,138,.07);
+    --shadow-md:  0 4px 16px rgba(11,79,138,.10);
+    --shadow-lg:  0 8px 32px rgba(11,79,138,.13);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.6; min-height: 100vh; }
+
+  /* LAYOUT */
+  .app { display: flex; min-height: 100vh; }
+  .sidebar { width: 240px; background: var(--blue-dark); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 50; transition: transform .25s; }
+  .main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar-brand { padding: 24px 20px 16px; border-bottom: 1px solid rgba(255,255,255,.1); }
+  .sidebar-logo { display: flex; align-items: center; gap: 10px; }
+  .sidebar-logo-icon { width: 40px; height: 40px; background: rgba(255,255,255,.15); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; }
+  .sidebar-logo-icon i { font-size: 22px; color: white; }
+  .sidebar-logo-text { color: white; }
+  .sidebar-logo-text .name { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 16px; font-weight: 800; }
+  .sidebar-logo-text .sub { font-size: 10px; opacity: .65; }
+  .sidebar-nav { padding: 12px 10px; flex: 1; overflow-y: auto; }
+  .nav-section { font-size: 10px; font-weight: 600; color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .08em; padding: 12px 10px 6px; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 12px; border-radius: var(--radius-md); color: rgba(255,255,255,.7); cursor: pointer; transition: all .15s; text-decoration: none; font-size: 13.5px; margin-bottom: 2px; }
+  .nav-item:hover { background: rgba(255,255,255,.1); color: white; }
+  .nav-item.active { background: rgba(255,255,255,.18); color: white; font-weight: 600; }
+  .nav-item i { font-size: 18px; flex-shrink: 0; }
+  .nav-badge { margin-left: auto; background: var(--red); color: white; font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 99px; }
+  .sidebar-footer { padding: 14px 10px; border-top: 1px solid rgba(255,255,255,.1); }
+  .sidebar-date { font-size: 11px; color: rgba(255,255,255,.5); padding: 6px 12px; }
+
+  /* TOPBAR */
+  .topbar { background: var(--surface); border-bottom: 1px solid var(--border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 40; box-shadow: var(--shadow-sm); }
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .topbar-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 17px; font-weight: 800; color: var(--blue-dark); }
+  .topbar-sub { font-size: 12px; color: var(--text3); }
+  .topbar-right { display: flex; align-items: center; gap: 10px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 600; cursor: pointer; border: none; transition: all .15s; }
+  .btn-primary { background: var(--blue-dark); color: white; }
+  .btn-primary:hover { background: var(--blue-mid); }
+  .btn-ghost { background: transparent; color: var(--text2); border: 1px solid var(--border); }
+  .btn-ghost:hover { background: var(--bg); }
+  .btn-danger { background: var(--red-light); color: var(--red-text); border: 1px solid #f7c1c1; }
+  .btn-danger:hover { background: #f7c1c1; }
+  .btn-sm { padding: 5px 10px; font-size: 12px; }
+  .btn-icon { width: 36px; height: 36px; padding: 0; display: inline-flex; align-items: center; justify-content: center; }
+
+  /* PAGE CONTENT */
+  .page { display: none; padding: 28px; flex: 1; }
+  .page.active { display: block; }
+
+  /* CARDS */
+  .card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 20px; box-shadow: var(--shadow-sm); }
+  .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .card-title { font-size: 13px; font-weight: 600; color: var(--text2); display: flex; align-items: center; gap: 6px; }
+  .card-title i { font-size: 16px; }
+
+  /* STAT CARDS */
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .stat-card { background: var(--surface); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 18px 20px; box-shadow: var(--shadow-sm); display: flex; align-items: flex-start; gap: 14px; }
+  .stat-icon { width: 44px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .stat-icon i { font-size: 22px; }
+  .stat-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 28px; font-weight: 800; line-height: 1; }
+  .stat-lbl { font-size: 12px; color: var(--text2); margin-top: 3px; }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* JOB LIST */
+  .job-item { display: flex; align-items: flex-start; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--bg); }
+  .job-item:last-child { border-bottom: none; }
+  .job-svc-icon { width: 38px; height: 38px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .job-svc-icon i { font-size: 18px; }
+  .job-name { font-size: 14px; font-weight: 600; color: var(--text); }
+  .job-name.done { text-decoration: line-through; opacity: .5; }
+  .job-meta { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .job-actions { display: flex; gap: 6px; margin-top: 7px; flex-wrap: wrap; }
+
+  /* BADGE */
+  .badge { display: inline-flex; align-items: center; gap: 3px; padding: 3px 9px; border-radius: 99px; font-size: 11px; font-weight: 600; }
+  .badge-blue   { background: var(--blue-light);   color: var(--blue-text); }
+  .badge-green  { background: var(--green-light);  color: var(--green-text); }
+  .badge-amber  { background: var(--amber-light);  color: var(--amber-text); }
+  .badge-purple { background: var(--purple-light); color: var(--purple-text); }
+  .badge-red    { background: var(--red-light);    color: var(--red-text); }
+
+  /* CALENDAR */
+  .cal-nav { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .cal-month { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800; color: var(--blue-dark); }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
+  .cal-dow { text-align: center; font-size: 11px; font-weight: 600; color: var(--text3); padding: 8px 0; background: var(--surface2); }
+  .cal-cell { min-height: 70px; padding: 6px; border: 0.5px solid var(--border); cursor: pointer; transition: background .12s; position: relative; }
+  .cal-cell:hover { background: var(--blue-light); }
+  .cal-cell.empty { background: var(--surface2); cursor: default; }
+  .cal-cell.today { background: #dbeeff; }
+  .cal-cell.selected { background: var(--blue-dark); }
+  .cal-num { font-size: 12px; font-weight: 600; color: var(--text); }
+  .cal-cell.today .cal-num { color: var(--blue-dark); }
+  .cal-cell.selected .cal-num { color: white; }
+  .cal-dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; margin: 1px; }
+  .cal-dots { display: flex; flex-wrap: wrap; margin-top: 4px; }
+  .cal-detail { padding: 16px; }
+  .cal-detail-date { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 15px; font-weight: 800; color: var(--blue-dark); margin-bottom: 12px; }
+
+  /* PROGRESS */
+  .prog-track { height: 5px; background: var(--bg); border-radius: 99px; overflow: hidden; margin-top: 4px; }
+  .prog-fill  { height: 100%; border-radius: 99px; }
+
+  /* REMINDER */
+  .rem-item { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-bottom: 1px solid var(--bg); }
+  .rem-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MODAL */
+  .overlay { display: none; position: fixed; inset: 0; background: rgba(11,31,53,.45); z-index: 200; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
+  .overlay.open { display: flex; }
+  .modal { background: var(--surface); border-radius: var(--radius-xl); padding: 28px; width: 400px; max-width: 96vw; max-height: 92vh; overflow-y: auto; box-shadow: var(--shadow-lg); border: 1px solid var(--border); }
+  .modal h3 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 18px; font-weight: 800; color: var(--blue-dark); margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+  .field { margin-bottom: 14px; }
+  .field label { font-size: 12px; font-weight: 600; color: var(--text2); display: block; margin-bottom: 5px; }
+  .field input, .field select, .field textarea { width: 100%; padding: 9px 12px; border: 1.5px solid var(--border); border-radius: var(--radius-md); font-size: 14px; font-family: inherit; background: var(--surface2); color: var(--text); outline: none; transition: border-color .15s; }
+  .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--blue-mid); background: white; }
+  .field textarea { resize: vertical; min-height: 70px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+  /* TOAST */
+  .toast-wrap { position: fixed; bottom: 24px; right: 24px; z-index: 999; display: flex; flex-direction: column; gap: 8px; }
+  .toast { background: var(--blue-dark); color: white; padding: 12px 18px; border-radius: var(--radius-lg); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 8px; animation: slideUp .2s ease; max-width: 300px; }
+  .toast.success { background: var(--green); }
+  .toast.error   { background: var(--red); }
+  @keyframes slideUp { from { transform: translateY(12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+  /* STRATEGY */
+  .strat-item { display: flex; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--bg); align-items: flex-start; }
+  .strat-item:last-child { border-bottom: none; }
+  .strat-icon-wrap { width: 34px; height: 34px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; background: var(--blue-light); }
+  .strat-icon-wrap i { font-size: 16px; color: var(--blue-dark); }
+
+  /* MOBILE */
+  .hamburger { display: none; }
+  .sidebar-backdrop { display: none; }
+
+  /* INCOME METRIC */
+  .metric-card { background: var(--surface2); border-radius: var(--radius-lg); border: 1px solid var(--border); padding: 16px 18px; }
+  .metric-lbl { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: .05em; }
+  .metric-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 26px; font-weight: 800; color: var(--text); margin-top: 4px; }
+
+  /* TARIF SLIDER */
+  .tarif-row { margin-bottom: 14px; }
+  .tarif-label { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 5px; }
+  .tarif-label span:first-child { color: var(--text); font-weight: 500; }
+  .tarif-label span:last-child  { color: var(--blue-dark); font-weight: 700; }
+  input[type=range] { width: 100%; accent-color: var(--blue-mid); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .grid2 { grid-template-columns: 1fr; }
+    .grid3 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 720px) {
+    .sidebar { transform: translateX(-100%); }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; }
+    .hamburger { display: flex; }
+    .sidebar-backdrop { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 49; display: none; }
+    .sidebar-backdrop.open { display: block; }
+    .page { padding: 16px; }
+    .topbar { padding: 0 16px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .grid3 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  .divider { height: 1px; background: var(--border); margin: 16px 0; }
+  .empty-state { text-align: center; padding: 40px 20px; color: var(--text3); }
+  .empty-state i { font-size: 40px; display: block; margin-bottom: 8px; }
+  .empty-state p { font-size: 13px; }
+  .chip { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 99px; font-size: 11px; font-weight: 600; cursor: pointer; border: none; }
+  .chip-done   { background: var(--green-light); color: var(--green-text); }
+  .chip-undone { background: var(--bg); color: var(--text2); border: 1px solid var(--border); }
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon"><i class="ti ti-air-conditioning"></i></div>
+      <div class="sidebar-logo-text">
+        <div class="name">COOL CARE</div>
+        <div class="sub">OFFICIAL MANAGEMENT</div>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section">Menu Utama</div>
+    <a class="nav-item active" data-page="dashboard" href="#"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+    <a class="nav-item" data-page="calendar" href="#"><i class="ti ti-calendar"></i> Kalender</a>
+    <a class="nav-item" data-page="jobs" href="#"><i class="ti ti-clipboard-list"></i> Kunjungan</a>
+    <div class="nav-section">Laporan & Tools</div>
+    <a class="nav-item" data-page="income" href="#"><i class="ti ti-chart-bar"></i> Pendapatan</a>
+    <a class="nav-item" data-page="reminders" href="#"><i class="ti ti-bell"></i> Reminder <span class="nav-badge" id="notif-badge">0</span></a>
+    <a class="nav-item" data-page="customers" href="#"><i class="ti ti-users"></i> Pelanggan</a>
+    <div class="nav-section">Referensi</div>
+    <a class="nav-item" data-page="strategy" href="#"><i class="ti ti-bulb"></i> Strategi Bisnis</a>
+  </nav>
+  <div class="sidebar-footer">
+    <div class="sidebar-date" id="sidebar-date"></div>
+  </div>
+</aside>
+<div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+<!-- MAIN -->
+<main class="main">
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <button class="btn btn-ghost btn-icon hamburger" id="hamburger" aria-label="Menu">
+        <i class="ti ti-menu-2" style="font-size:20px;"></i>
+      </button>
+      <div>
+        <div class="topbar-title" id="topbar-title">COOL CARE OFFICIAL.</div>
+        <div class="topbar-sub" id="topbar-sub">Ringkasan usaha hari ini</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button class="btn btn-primary" onclick="openAdd()"><i class="ti ti-plus"></i> Tambah Kunjungan</button>
+    </div>
+  </header>
+
+  <!-- PAGES -->
+
+  <!-- DASHBOARD -->
+  <div class="page active" id="page-dashboard">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--blue-light);"><i class="ti ti-clipboard-list" style="color:var(--blue-dark);"></i></div>
+        <div><div class="stat-val" id="s-total">0</div><div class="stat-lbl">Total Kunjungan</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--green-light);"><i class="ti ti-circle-check" style="color:var(--green);"></i></div>
+        <div><div class="stat-val" id="s-done">0</div><div class="stat-lbl">Selesai</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--amber-light);"><i class="ti ti-clock" style="color:var(--amber);"></i></div>
+        <div><div class="stat-val" id="s-today">0</div><div class="stat-lbl">Hari Ini</div></div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon" style="background:var(--red-light);"><i class="ti ti-alert-circle" style="color:var(--red);"></i></div>
+        <div><div class="stat-val" id="s-pending">0</div><div class="stat-lbl">Belum Selesai</div></div>
+      </div>
+    </div>
+    <div class="grid2" style="margin-bottom:20px;">
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-clock"></i> Kunjungan Hari Ini</div>
+        </div>
+        <div id="today-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-chart-donut"></i> Distribusi Layanan</div>
+        </div>
+        <div id="svc-dist"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><i class="ti ti-list"></i> Kunjungan Terbaru</div>
+        <a class="btn btn-ghost btn-sm" data-page="jobs" href="#" onclick="navigate('jobs');return false;">Lihat Semua</a>
+      </div>
+      <div id="recent-list"></div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div class="page" id="page-calendar">
+    <div class="grid2" style="align-items:start;">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="cal-nav">
+          <button class="btn btn-ghost btn-sm" onclick="prevMonth()"><i class="ti ti-chevron-left"></i></button>
+          <span class="cal-month" id="cal-label"></span>
+          <button class="btn btn-ghost btn-sm" onclick="nextMonth()"><i class="ti ti-chevron-right"></i></button>
+        </div>
+        <div class="cal-grid" id="cal-grid">
+          <div class="cal-dow">Min</div><div class="cal-dow">Sen</div><div class="cal-dow">Sel</div>
+          <div class="cal-dow">Rab</div><div class="cal-dow">Kam</div><div class="cal-dow">Jum</div><div class="cal-dow">Sab</div>
+        </div>
+      </div>
+      <div class="card" id="cal-panel">
+        <div class="empty-state"><i class="ti ti-calendar"></i><p>Pilih tanggal untuk melihat jadwal</p></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+      <span style="font-size:11px;color:var(--text3);font-weight:600;">Keterangan:</span>
+      <span id="cal-legend"></span>
+    </div>
+  </div>
+
+  <!-- JOBS -->
+  <div class="page" id="page-jobs">
+    <div class="card">
+      <div class="card-header" style="flex-wrap:wrap;gap:10px;">
+        <div class="card-title"><i class="ti ti-clipboard-list"></i> Semua Kunjungan</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <select id="filter-svc" onchange="renderJobs()" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;background:var(--surface2);color:var(--text);">
+            <option value="">Semua Layanan</option>
+            <option value="pasang">Pemasangan AC</option>
+            <option value="servis">Servis / Cuci AC</option>
+            <option value="freon">Isi Freon</option>
+            <option value="bongkar">Bongkar / Pindah</option>
+            <option value="darurat">Darurat / Kerusakan</option>
+          </select>
+          <select id="filter-status" onchange="renderJobs()" style="padding:6px 10px;border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;background:var(--surface2);color:var(--text);">
+            <option value="">Semua Status</option>
+            <option value="pending">Belum Selesai</option>
+            <option value="done">Selesai</option>
+          </select>
+        </div>
+      </div>
+      <div id="jobs-list"></div>
+    </div>
+  </div>
+
+  <!-- INCOME -->
+  <div class="page" id="page-income">
+    <div class="grid3" style="margin-bottom:20px;">
+      <div class="metric-card"><div class="metric-lbl">Estimasi Bulan Ini</div><div class="metric-val" id="inc-month">Rp 0</div></div>
+      <div class="metric-card"><div class="metric-lbl">Total Kunjungan Selesai</div><div class="metric-val" id="inc-done">0</div></div>
+      <div class="metric-card"><div class="metric-lbl">Rata-rata / Kunjungan</div><div class="metric-val" id="inc-avg">Rp 0</div></div>
+    </div>
+    <div class="grid2" style="align-items:start;">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="ti ti-chart-bar"></i> Pendapatan per Layanan</div></div>
+        <div style="position:relative;height:260px;"><canvas id="incChart" role="img" aria-label="Grafik pendapatan per jenis layanan AC">Grafik pendapatan.</canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="ti ti-adjustments"></i> Atur Tarif Layanan</div></div>
+        <div id="tarif-wrap"></div>
+        <button class="btn btn-primary" style="width:100%;margin-top:12px;" onclick="saveTarif()"><i class="ti ti-device-floppy"></i> Simpan Tarif</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- REMINDERS -->
+  <div class="page" id="page-reminders">
+    <div class="grid2" style="align-items:start;">
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="ti ti-bell-ringing"></i> Reminder Aktif</div></div>
+        <div id="rem-list"></div>
+      </div>
+      <div class="card">
+        <div class="card-header"><div class="card-title"><i class="ti ti-calendar-plus"></i> Tambah Reminder</div></div>
+        <div class="field"><label>Keterangan *</label><input type="text" id="rem-name" placeholder="Misal: Follow-up Bu Ani"></div>
+        <div class="field"><label>Tanggal *</label><input type="date" id="rem-date"></div>
+        <div class="field"><label>Jam</label><input type="time" id="rem-time" value="08:00"></div>
+        <button class="btn btn-primary" style="width:100%;" onclick="addReminder()"><i class="ti ti-plus"></i> Tambah Reminder</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- CUSTOMERS -->
+  <div class="page" id="page-customers">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><i class="ti ti-users"></i> Database Pelanggan</div>
+        <button class="btn btn-primary btn-sm" onclick="openAddCustomer()"><i class="ti ti-plus"></i> Tambah Pelanggan</button>
+      </div>
+      <div id="customers-list"></div>
+    </div>
+  </div>
+
+  <!-- STRATEGY -->
+  <div class="page" id="page-strategy">
+    <div class="grid2" id="strategy-grid"></div>
+  </div>
+
+</main>
+</div>
+
+<!-- MODAL KUNJUNGAN -->
+<div class="overlay" id="modal-job">
+  <div class="modal">
+    <h3><i class="ti ti-calendar-plus"></i> <span id="modal-job-title">Tambah Kunjungan</span></h3>
+    <div class="field"><label>Nama Pelanggan *</label><input type="text" id="f-customer" placeholder="Nama pelanggan atau perusahaan"></div>
+    <div class="field"><label>Alamat *</label><input type="text" id="f-address" placeholder="Alamat lengkap"></div>
+    <div class="field"><label>No. HP Pelanggan</label><input type="tel" id="f-phone" placeholder="08xxxxxxxxxx"></div>
+    <div class="field"><label>Tanggal *</label><input type="date" id="f-date"></div>
+    <div class="field"><label>Jam</label><input type="time" id="f-time" value="09:00"></div>
+    <div class="field"><label>Jenis Layanan</label>
+      <select id="f-service">
+        <option value="pasang">🔧 Pemasangan AC</option>
+        <option value="servis">🧹 Servis / Cuci AC</option>
+        <option value="freon">❄️ Isi Freon</option>
+        <option value="bongkar">📦 Bongkar / Pindah</option>
+        <option value="darurat">🚨 Darurat / Kerusakan</option>
+      </select>
+    </div>
+    <div class="field"><label>Catatan Teknis</label><textarea id="f-note" placeholder="Spesifikasi unit, keluhan, catatan penting…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeModal('modal-job')">Batal</button>
+      <button class="btn btn-primary" style="flex:2;" onclick="saveJob()"><i class="ti ti-device-floppy"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL PELANGGAN -->
+<div class="overlay" id="modal-customer">
+  <div class="modal">
+    <h3><i class="ti ti-user-plus"></i> Tambah Pelanggan</h3>
+    <div class="field"><label>Nama *</label><input type="text" id="fc-name" placeholder="Nama lengkap"></div>
+    <div class="field"><label>No. HP</label><input type="tel" id="fc-phone" placeholder="08xxxxxxxxxx"></div>
+    <div class="field"><label>Alamat</label><input type="text" id="fc-address" placeholder="Alamat lengkap"></div>
+    <div class="field"><label>Catatan</label><textarea id="fc-note" placeholder="Tipe unit AC, kebiasaan, dsb…"></textarea></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1;" onclick="closeModal('modal-customer')">Batal</button>
+      <button class="btn btn-primary" style="flex:2;" onclick="saveCustomer()"><i class="ti ti-device-floppy"></i> Simpan</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-wrap" id="toast-wrap"></div>
+
+<script>
+// ─── DATA ──────────────────────────────────────────────────────────────
+const SVCS = {
+  pasang:  { label:'Pemasangan AC',    color:'#1478c8', bg:'#e6f1fb', tc:'#0c447c', icon:'ti-tool' },
+  servis:  { label:'Servis / Cuci AC', color:'#1d9e75', bg:'#e1f5ee', tc:'#085041', icon:'ti-wash' },
+  freon:   { label:'Isi Freon',        color:'#ba7517', bg:'#faeeda', tc:'#633806', icon:'ti-snowflake' },
+  bongkar: { label:'Bongkar / Pindah', color:'#7f77dd', bg:'#eeedfe', tc:'#3c3489', icon:'ti-package' },
+  darurat: { label:'Darurat / Kerusakan', color:'#e24b4a', bg:'#fcebeb', tc:'#791f1f', icon:'ti-alert-triangle' }
+};
+const MONTHS = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+
+const now = new Date();
+const todayStr = fmtDate(now);
+
+function fmtDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function dateLabel(str) {
+  const [y,m,d] = str.split('-');
+  return `${parseInt(d)} ${MONTHS[parseInt(m)-1]} ${y}`;
+}
+function fmtRp(n) { return 'Rp ' + Math.round(n).toLocaleString('id-ID'); }
+
+// ─── STORAGE ───────────────────────────────────────────────────────────
+function load(key, def) { try { return JSON.parse(localStorage.getItem(key)) ?? def; } catch { return def; } }
+function save(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+
+const off = d => { const x = new Date(now); x.setDate(x.getDate()+d); return fmtDate(x); };
+
+let jobs      = load('acpm_jobs', [
+  {id:1, date:todayStr,  customer:'Pak Budi',         address:'Jl. Melati No.5',        phone:'081234567890', service:'servis',  time:'09:00', note:'AC 1.5 PK, kotor',        done:false},
+  {id:2, date:todayStr,  customer:'Bu Dewi',          address:'Griya Permai No.12',      phone:'',             service:'freon',   time:'13:00', note:'Kurang dingin',            done:false},
+  {id:3, date:off(1),    customer:'PT Abadi Jaya',    address:'Ruko Blok B No.3',        phone:'0217654321',   service:'pasang',  time:'10:00', note:'2 unit baru',              done:false},
+  {id:4, date:off(2),    customer:'Pak Hendra',       address:'Jl. Kenanga No.8',        phone:'082111111111', service:'darurat', time:'11:00', note:'Tidak dingin sama sekali', done:false},
+  {id:5, date:off(4),    customer:'Bu Sari',          address:'Komp. Baru No.1',         phone:'',             service:'bongkar', time:'09:00', note:'Pindah rumah',             done:false},
+  {id:6, date:off(4),    customer:'Toko Elektronik Maju', address:'Jl. Sudirman No.22', phone:'02188888888',  service:'servis',  time:'14:00', note:'3 unit sekaligus',         done:true},
+]);
+let reminders = load('acpm_reminders', [
+  {id:1, name:'Service rutin Bu Dewi',       date:off(1), time:'08:00', auto:true},
+  {id:2, name:'Follow-up PT Abadi Jaya',     date:off(2), time:'09:00', auto:true},
+]);
+let customers = load('acpm_customers', [
+  {id:1, name:'Pak Budi',           phone:'081234567890', address:'Jl. Melati No.5',     note:'Punya 2 unit AC'},
+  {id:2, name:'PT Abadi Jaya',      phone:'0217654321',   address:'Ruko Blok B No.3',    note:'Klien rutin, 4 unit'},
+]);
+let tarif = load('acpm_tarif', {pasang:650000, servis:175000, freon:250000, bongkar:400000, darurat:350000});
+let nextId = load('acpm_nextid', 7);
+let nextCustId = load('acpm_nextcustid', 3);
+
+function saveAll() {
+  save('acpm_jobs', jobs);
+  save('acpm_reminders', reminders);
+  save('acpm_customers', customers);
+  save('acpm_tarif', tarif);
+  save('acpm_nextid', nextId);
+  save('acpm_nextcustid', nextCustId);
+}
+
+// ─── NAVIGATION ────────────────────────────────────────────────────────
+const PAGE_TITLES = {
+  dashboard: ['Dashboard', 'Ringkasan usaha hari ini'],
+  calendar:  ['Kalender', 'Jadwal kunjungan bulanan'],
+  jobs:      ['Kunjungan', 'Semua jadwal kunjungan'],
+  income:    ['Laporan Pendapatan', 'Estimasi & analisis pendapatan'],
+  reminders: ['Reminder', 'Pengingat jadwal kunjungan'],
+  customers: ['Pelanggan', 'Database pelanggan Anda'],
+  strategy:  ['Strategi Bisnis', 'Tips & breakdown usaha AC'],
+};
+
+function navigate(page, e) {
+  if (e) e.preventDefault();
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.toggle('active', n.dataset.page===page));
+  document.querySelectorAll('.page').forEach(p => p.classList.toggle('active', p.id==='page-'+page));
+  const [t, s] = PAGE_TITLES[page] || ['',''];
+  document.getElementById('topbar-title').textContent = t;
+  document.getElementById('topbar-sub').textContent = s;
+  // Lazy render
+  if (page==='dashboard')  renderDashboard();
+  if (page==='calendar')   { renderCal(); renderCalLegend(); }
+  if (page==='jobs')       renderJobs();
+  if (page==='income')     renderIncome();
+  if (page==='reminders')  renderReminders();
+  if (page==='customers')  renderCustomers();
+  if (page==='strategy')   renderStrategy();
+  // close sidebar on mobile
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+}
+
+document.querySelectorAll('.nav-item').forEach(n => {
+  n.addEventListener('click', e => { e.preventDefault(); navigate(n.dataset.page); });
+});
+
+// Mobile hamburger
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('sidebar-backdrop').classList.toggle('open');
+});
+document.getElementById('sidebar-backdrop').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebar-backdrop').classList.remove('open');
+});
+
+// ─── MODAL ─────────────────────────────────────────────────────────────
+let editJobId = null;
+
+function openAdd(prefillDate) {
+  editJobId = null;
+  document.getElementById('modal-job-title').textContent = 'Tambah Kunjungan';
+  document.getElementById('f-customer').value = '';
+  document.getElementById('f-address').value = '';
+  document.getElementById('f-phone').value = '';
+  document.getElementById('f-date').value = prefillDate || todayStr;
+  document.getElementById('f-time').value = '09:00';
+  document.getElementById('f-service').value = 'servis';
+  document.getElementById('f-note').value = '';
+  document.getElementById('modal-job').classList.add('open');
+}
+function openEdit(id) {
+  const j = jobs.find(x=>x.id===id);
+  if (!j) return;
+  editJobId = id;
+  document.getElementById('modal-job-title').textContent = 'Edit Kunjungan';
+  document.getElementById('f-customer').value = j.customer;
+  document.getElementById('f-address').value = j.address;
+  document.getElementById('f-phone').value = j.phone || '';
+  document.getElementById('f-date').value = j.date;
+  document.getElementById('f-time').value = j.time;
+  document.getElementById('f-service').value = j.service;
+  document.getElementById('f-note').value = j.note;
+  document.getElementById('modal-job').classList.add('open');
+}
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+document.querySelectorAll('.overlay').forEach(o => {
+  o.addEventListener('click', e => { if(e.target===o) o.classList.remove('open'); });
+});
+
+function saveJob() {
+  const customer = document.getElementById('f-customer').value.trim();
+  const address  = document.getElementById('f-address').value.trim();
+  const date     = document.getElementById('f-date').value;
+  if (!customer || !date) { toast('Nama pelanggan & tanggal wajib diisi', 'error'); return; }
+  const data = {
+    customer, address, date,
+    phone:   document.getElementById('f-phone').value.trim(),
+    time:    document.getElementById('f-time').value,
+    service: document.getElementById('f-service').value,
+    note:    document.getElementById('f-note').value.trim(),
+    done:    false,
+  };
+  if (editJobId) {
+    jobs = jobs.map(j => j.id===editJobId ? {...j, ...data, done:j.done} : j);
+    toast('Kunjungan berhasil diperbarui', 'success');
+  } else {
+    jobs.push({...data, id: nextId++});
+    reminders.push({id: Date.now(), name:`Kunjungan ke ${customer}`, date, time:data.time, auto:true});
+    toast('Kunjungan berhasil ditambahkan', 'success');
+  }
+  saveAll();
+  closeModal('modal-job');
+  refreshAll();
+}
+
+function deleteJob(id) {
+  if (!confirm('Hapus kunjungan ini?')) return;
+  jobs = jobs.filter(j=>j.id!==id);
+  saveAll();
+  toast('Kunjungan dihapus', 'error');
+  refreshAll();
+}
+
+function toggleDone(id) {
+  jobs = jobs.map(j => j.id===id ? {...j, done:!j.done} : j);
+  saveAll();
+  refreshAll();
+}
+
+// ─── CUSTOMER MODAL ────────────────────────────────────────────────────
+function openAddCustomer() {
+  ['fc-name','fc-phone','fc-address','fc-note'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('modal-customer').classList.add('open');
+}
+function saveCustomer() {
+  const name = document.getElementById('fc-name').value.trim();
+  if (!name) { toast('Nama pelanggan wajib diisi', 'error'); return; }
+  customers.push({ id: nextCustId++, name, phone: document.getElementById('fc-phone').value.trim(), address: document.getElementById('fc-address').value.trim(), note: document.getElementById('fc-note').value.trim() });
+  saveAll();
+  closeModal('modal-customer');
+  toast('Pelanggan ditambahkan', 'success');
+  renderCustomers();
+}
+function deleteCustomer(id) {
+  if (!confirm('Hapus pelanggan ini?')) return;
+  customers = customers.filter(c=>c.id!==id);
+  saveAll();
+  toast('Pelanggan dihapus', 'error');
+  renderCustomers();
+}
+
+// ─── TOAST ─────────────────────────────────────────────────────────────
+function toast(msg, type='') {
+  const el = document.createElement('div');
+  el.className = `toast ${type}`;
+  el.innerHTML = `<i class="ti ${type==='success'?'ti-check':type==='error'?'ti-x':'ti-info-circle'}"></i>${msg}`;
+  document.getElementById('toast-wrap').appendChild(el);
+  setTimeout(() => el.remove(), 3000);
+}
+
+// ─── HELPER RENDER ─────────────────────────────────────────────────────
+function jobCard(j, opts={}) {
+  const s = SVCS[j.service];
+  return `<div class="job-item">
+    <div class="job-svc-icon" style="background:${s.bg};"><i class="ti ${s.icon}" style="color:${s.color};"></i></div>
+    <div style="flex:1;min-width:0;">
+      <div class="job-name ${j.done?'done':''}">${j.customer}</div>
+      <div class="job-meta">${opts.showDate ? j.date+' · ' : ''}${j.time} · ${j.address}</div>
+      ${j.note ? `<div style="font-size:11px;color:var(--text3);margin-top:2px;font-style:italic;">${j.note}</div>` : ''}
+      <div class="job-actions">
+        <span class="badge badge-${svcBadge(j.service)}">${s.label}</span>
+        <button class="chip ${j.done?'chip-done':'chip-undone'}" onclick="toggleDone(${j.id});return false;">
+          <i class="ti ${j.done?'ti-check':'ti-circle'}"></i>${j.done?'Selesai':'Tandai Selesai'}
+        </button>
+        <button class="btn btn-ghost btn-sm btn-icon" onclick="openEdit(${j.id})" title="Edit"><i class="ti ti-edit"></i></button>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteJob(${j.id})" title="Hapus"><i class="ti ti-trash"></i></button>
+      </div>
+    </div>
+  </div>`;
+}
+function svcBadge(s) { return {pasang:'blue',servis:'green',freon:'amber',bongkar:'purple',darurat:'red'}[s]||'blue'; }
+
+// ─── DASHBOARD ─────────────────────────────────────────────────────────
+function renderDashboard() {
+  const todayJobs = jobs.filter(j=>j.date===todayStr);
+  document.getElementById('s-total').textContent   = jobs.length;
+  document.getElementById('s-done').textContent    = jobs.filter(j=>j.done).length;
+  document.getElementById('s-today').textContent   = todayJobs.length;
+  document.getElementById('s-pending').textContent = jobs.filter(j=>!j.done).length;
+  updateNotifBadge();
+
+  const todayEl = document.getElementById('today-list');
+  todayEl.innerHTML = todayJobs.length
+    ? todayJobs.map(j=>jobCard(j)).join('')
+    : `<div class="empty-state"><i class="ti ti-circle-check"></i><p>Tidak ada kunjungan hari ini</p></div>`;
+
+  const total = jobs.length || 1;
+  const distEl = document.getElementById('svc-dist');
+  distEl.innerHTML = Object.entries(SVCS).map(([k,s]) => {
+    const cnt = jobs.filter(j=>j.service===k).length;
+    const pct = Math.round((cnt/total)*100);
+    return `<div style="margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px;">
+        <span style="display:flex;align-items:center;gap:5px;color:var(--text);"><i class="ti ${s.icon}" style="color:${s.color};font-size:14px;"></i>${s.label}</span>
+        <span style="font-weight:700;color:var(--text);">${cnt}</span>
+      </div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${s.color};"></div></div>
+    </div>`;
+  }).join('');
+
+  const recent = [...jobs].sort((a,b)=>a.date<b.date?-1:1).slice(0,5);
+  document.getElementById('recent-list').innerHTML = recent.length
+    ? recent.map(j=>jobCard(j, {showDate:true})).join('')
+    : `<div class="empty-state"><i class="ti ti-calendar-off"></i><p>Belum ada kunjungan</p></div>`;
+}
+
+// ─── CALENDAR ──────────────────────────────────────────────────────────
+let calYear = now.getFullYear(), calMonth = now.getMonth(), selectedDate = null;
+
+function renderCal() {
+  document.getElementById('cal-label').textContent = `${MONTHS[calMonth]} ${calYear}`;
+  const grid = document.getElementById('cal-grid');
+  // remove old cells
+  grid.querySelectorAll('.cal-cell').forEach(c=>c.remove());
+  const first = new Date(calYear, calMonth, 1).getDay();
+  const days  = new Date(calYear, calMonth+1, 0).getDate();
+  for (let i=0;i<first;i++) {
+    const el = document.createElement('div'); el.className='cal-cell empty'; grid.appendChild(el);
+  }
+  for (let d=1;d<=days;d++) {
+    const ds = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dj = jobs.filter(j=>j.date===ds);
+    const el = document.createElement('div');
+    el.className = 'cal-cell' + (ds===todayStr?' today':'') + (ds===selectedDate?' selected':'');
+    el.innerHTML = `<div class="cal-num">${d}</div><div class="cal-dots">${dj.slice(0,4).map(j=>`<span class="cal-dot" style="background:${SVCS[j.service].color};"></span>`).join('')}</div>`;
+    el.onclick = () => { selectedDate=ds; renderCal(); renderCalPanel(ds); };
+    grid.appendChild(el);
+  }
+}
+function prevMonth() { calMonth--; if(calMonth<0){calMonth=11;calYear--;} selectedDate=null; renderCal(); document.getElementById('cal-panel').innerHTML='<div class="empty-state"><i class="ti ti-calendar"></i><p>Pilih tanggal untuk melihat jadwal</p></div>'; }
+function nextMonth() { calMonth++; if(calMonth>11){calMonth=0;calYear++;} selectedDate=null; renderCal(); document.getElementById('cal-panel').innerHTML='<div class="empty-state"><i class="ti ti-calendar"></i><p>Pilih tanggal untuk melihat jadwal</p></div>'; }
+function renderCalPanel(ds) {
+  const dj = jobs.filter(j=>j.date===ds);
+  document.getElementById('cal-panel').innerHTML = `
+    <div class="cal-detail">
+      <div class="cal-detail-date">${dateLabel(ds)}</div>
+      ${dj.length ? dj.map(j=>jobCard(j)).join('') : '<div class="empty-state" style="padding:20px 0;"><i class="ti ti-calendar-off"></i><p>Tidak ada kunjungan</p></div>'}
+      <div class="divider"></div>
+      <button class="btn btn-primary" style="width:100%;" onclick="openAdd('${ds}')"><i class="ti ti-plus"></i> Tambah di tanggal ini</button>
+    </div>`;
+}
+function renderCalLegend() {
+  document.getElementById('cal-legend').innerHTML = Object.entries(SVCS).map(([,s])=>
+    `<span style="font-size:11px;display:inline-flex;align-items:center;gap:4px;color:var(--text2);margin-right:10px;"><span style="width:9px;height:9px;border-radius:50%;background:${s.color};display:inline-block;"></span>${s.label}</span>`
+  ).join('');
+}
+
+// ─── JOBS LIST ─────────────────────────────────────────────────────────
+function renderJobs() {
+  const filterSvc    = document.getElementById('filter-svc').value;
+  const filterStatus = document.getElementById('filter-status').value;
+  let list = [...jobs].sort((a,b)=>a.date<b.date?-1:1);
+  if (filterSvc)    list = list.filter(j=>j.service===filterSvc);
+  if (filterStatus) list = list.filter(j=>filterStatus==='done'?j.done:!j.done);
+  document.getElementById('jobs-list').innerHTML = list.length
+    ? list.map(j=>jobCard(j, {showDate:true})).join('')
+    : `<div class="empty-state"><i class="ti ti-clipboard-off"></i><p>Tidak ada kunjungan ditemukan</p></div>`;
+}
+
+// ─── INCOME ────────────────────────────────────────────────────────────
+let incChart = null;
+function renderIncome() {
+  const done  = jobs.filter(j=>j.done);
+  const mKey  = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}`;
+  const mJobs = jobs.filter(j=>j.date.startsWith(mKey));
+  const mInc  = mJobs.reduce((s,j)=>s+(tarif[j.service]||0), 0);
+  const total = done.reduce((s,j)=>s+(tarif[j.service]||0), 0);
+  const avg   = done.length ? Math.round(total/done.length) : 0;
+  document.getElementById('inc-month').textContent = fmtRp(mInc);
+  document.getElementById('inc-done').textContent  = done.length + ' kunjungan';
+  document.getElementById('inc-avg').textContent   = fmtRp(avg);
+
+  const labels = Object.values(SVCS).map(s=>s.label);
+  const data   = Object.keys(SVCS).map(k=>done.filter(j=>j.service===k).length * (tarif[k]||0));
+  const colors = Object.values(SVCS).map(s=>s.color);
+  if (incChart) incChart.destroy();
+  incChart = new Chart(document.getElementById('incChart'), {
+    type:'bar',
+    data:{ labels, datasets:[{ data, backgroundColor:colors.map(c=>c+'cc'), borderColor:colors, borderWidth:1.5, borderRadius:6 }] },
+    options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{display:false} }, scales:{ y:{ ticks:{ callback:v=>'Rp '+Math.round(v/1000)+'rb' } }, x:{ ticks:{ font:{size:11} } } } }
+  });
+
+  const tw = document.getElementById('tarif-wrap');
+  tw.innerHTML = Object.entries(SVCS).map(([k,s])=>`
+    <div class="tarif-row">
+      <div class="tarif-label">
+        <span><i class="ti ${s.icon}" style="color:${s.color};font-size:13px;margin-right:4px;"></i>${s.label}</span>
+        <span id="tv-${k}">${fmtRp(tarif[k])}</span>
+      </div>
+      <input type="range" min="50000" max="1500000" step="25000" value="${tarif[k]}" oninput="tarif['${k}']=parseInt(this.value);document.getElementById('tv-${k}').textContent=fmtRp(parseInt(this.value));">
+    </div>`).join('');
+}
+function saveTarif() { save('acpm_tarif', tarif); toast('Tarif berhasil disimpan', 'success'); renderIncome(); }
+
+// ─── REMINDERS ─────────────────────────────────────────────────────────
+function updateNotifBadge() {
+  document.getElementById('notif-badge').textContent = reminders.length;
+}
+function renderReminders() {
+  updateNotifBadge();
+  const sorted = [...reminders].sort((a,b)=>a.date<b.date?-1:1);
+  document.getElementById('rem-list').innerHTML = sorted.length
+    ? sorted.map(r=>`
+      <div class="rem-item">
+        <div class="rem-dot" style="background:${r.date===todayStr?'var(--red)':'var(--blue-mid)'};""></div>
+        <div style="flex:1;">
+          <div style="font-size:13px;font-weight:600;color:var(--text);">${r.name}</div>
+          <div style="font-size:11px;color:var(--text2);">${dateLabel(r.date)} · ${r.time}</div>
+          ${r.auto ? '<span class="badge badge-blue" style="margin-top:4px;font-size:10px;">Auto</span>' : ''}
+        </div>
+        <button class="btn btn-danger btn-sm btn-icon" onclick="deleteReminder(${r.id})"><i class="ti ti-trash"></i></button>
+      </div>`).join('')
+    : `<div class="empty-state"><i class="ti ti-bell-off"></i><p>Tidak ada reminder</p></div>`;
+}
+function addReminder() {
+  const name = document.getElementById('rem-name').value.trim();
+  const date = document.getElementById('rem-date').value;
+  if (!name || !date) { toast('Nama & tanggal wajib diisi', 'error'); return; }
+  reminders.push({ id:Date.now(), name, date, time:document.getElementById('rem-time').value, auto:false });
+  saveAll();
+  document.getElementById('rem-name').value = '';
+  document.getElementById('rem-date').value = '';
+  toast('Reminder ditambahkan', 'success');
+  renderReminders();
+}
+function deleteReminder(id) { reminders=reminders.filter(r=>r.id!==id); saveAll(); toast('Reminder dihapus', 'error'); renderReminders(); }
+
+// ─── CUSTOMERS ─────────────────────────────────────────────────────────
+function renderCustomers() {
+  const el = document.getElementById('customers-list');
+  if (!customers.length) { el.innerHTML='<div class="empty-state"><i class="ti ti-users-off"></i><p>Belum ada pelanggan</p></div>'; return; }
+  el.innerHTML = customers.map(c=>{
+    const cJobs = jobs.filter(j=>j.customer===c.name).length;
+    return `<div class="job-item">
+      <div style="width:40px;height:40px;border-radius:50%;background:var(--blue-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+        <span style="font-weight:800;color:var(--blue-dark);font-size:14px;">${c.name.charAt(0).toUpperCase()}</span>
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div class="job-name">${c.name}</div>
+        <div class="job-meta">${c.phone ? '📞 '+c.phone+' · ' : ''}${c.address || 'Alamat belum diisi'}</div>
+        ${c.note ? `<div style="font-size:11px;color:var(--text3);margin-top:2px;">${c.note}</div>` : ''}
+        <div class="job-actions">
+          <span class="badge badge-blue"><i class="ti ti-clipboard-list"></i> ${cJobs} kunjungan</span>
+          <button class="btn btn-danger btn-sm btn-icon" onclick="deleteCustomer(${c.id})"><i class="ti ti-trash"></i></button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ─── STRATEGY ──────────────────────────────────────────────────────────
+function renderStrategy() {
+  const sections = [
+    { icon:'ti-tool',        title:'Layanan & Modal Awal', color:'#1478c8', items:[
+      'Layanan utama: Pasang baru, Servis/cuci AC, Isi freon, Bongkar/pindah, Perbaikan darurat',
+      'Modal awal: Manifold gauge, vacuum pump, tangki freon R22/R32, tools set, kendaraan operasional',
+      'Struktur biaya harian: bensin, sparepart (kapasitor, filter, remote cadangan), biaya promosi digital',
+    ]},
+    { icon:'ti-speakerphone', title:'Strategi Pemasaran', color:'#1d9e75', items:[
+      'Daftarkan usaha di Google Bisnisku — pelanggan sekitar mudah menemukan Anda secara gratis',
+      'Program referral: diskon 10–15% untuk pelanggan yang berhasil ajak pelanggan baru',
+      'Kemitraan dengan developer perumahan, kontraktor, dan toko elektronik lokal',
+    ]},
+    { icon:'ti-trending-up',  title:'Strategi Pertumbuhan', color:'#7f77dd', items:[
+      'Fokus satu kecamatan/kelurahan dulu agar efisien dan word-of-mouth kuat sebelum ekspansi',
+      'Upselling: setiap servis tawarkan freon top-up atau cek komponen tambahan',
+      'Targetkan perkantoran, hotel, dan klinik sebagai klien kontrak bulanan/tahunan',
+    ]},
+    { icon:'ti-shield-check',  title:'Manajemen Risiko', color:'#ba7517', items:[
+      'Garansi pekerjaan 1–3 bulan untuk pemasangan baru agar pelanggan lebih percaya',
+      'Stok minimal sparepart: freon R22/R32, kapasitor 2-5 µF, filter bersih, remote universal',
+      'Pisahkan rekening pribadi dan usaha dari awal untuk laporan keuangan yang bersih',
+    ]},
+    { icon:'ti-coins',         title:'Estimasi Potensi Pendapatan', color:'#e24b4a', items:[
+      'Pemula (1–2 teknisi): Rp 5–12 juta/bulan dengan 15–30 kunjungan',
+      'Berkembang (3–5 teknisi): Rp 20–50 juta/bulan dengan 60–120 kunjungan',
+      'Musim panas April–Oktober adalah peak season — siapkan kapasitas dan stok freon ekstra',
+    ]},
+    { icon:'ti-star',          title:'Tips Pro Teknisi AC', color:'#1478c8', items:[
+      'Foto kondisi unit sebelum & sesudah servis — bangun kepercayaan dan dokumentasi garansi',
+      'Rekam semua kunjungan di kalender agar tidak tumpang tindih dan pelanggan tidak kecewa',
+      'Posting konten edukatif AC di Instagram/Facebook lokal untuk bangun reputasi pakar',
+    ]},
+  ];
+  document.getElementById('strategy-grid').innerHTML = sections.map(sec=>`
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title" style="color:${sec.color};font-size:14px;font-weight:700;">
+          <i class="ti ${sec.icon}" style="font-size:18px;"></i>${sec.title}
+        </div>
+      </div>
+      ${sec.items.map(item=>`
+        <div class="strat-item">
+          <div class="strat-icon-wrap" style="background:${sec.color}18;"><i class="ti ti-arrow-right" style="color:${sec.color};"></i></div>
+          <div style="font-size:13px;color:var(--text);line-height:1.55;">${item}</div>
+        </div>`).join('')}
+    </div>`).join('');
+}
+
+// ─── INIT ──────────────────────────────────────────────────────────────
+function refreshAll() {
+  const activePage = document.querySelector('.page.active')?.id?.replace('page-','');
+  if (activePage) {
+    if (activePage==='dashboard') renderDashboard();
+    if (activePage==='calendar')  { renderCal(); if(selectedDate) renderCalPanel(selectedDate); }
+    if (activePage==='jobs')      renderJobs();
+    if (activePage==='income')    renderIncome();
+    if (activePage==='reminders') renderReminders();
+    if (activePage==='customers') renderCustomers();
+  }
+  updateNotifBadge();
+}
+
+// Sidebar date
+const DAYS_ID = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+document.getElementById('sidebar-date').textContent = `${DAYS_ID[now.getDay()]}, ${parseInt(todayStr.split('-')[2])} ${MONTHS[now.getMonth()]} ${now.getFullYear()}`;
+
+renderDashboard();
+</script>
+</body>
+</html>
